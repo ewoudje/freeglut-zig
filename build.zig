@@ -15,6 +15,14 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     lib.linkLibCpp();
+    lib.addIncludePath(.{ .path = b.pathJoin(&.{ "freeglut", "include" }) });
+    b.installArtifact(lib);
+
+    lib.step.dependOn(installHeaders(
+        b,
+        b.pathJoin(&.{ "freeglut", "include", "GL" }),
+        "GL",
+    ));
 
     var platform_folder: ?[]const u8 = null;
 
@@ -71,15 +79,6 @@ pub fn build(b: *std.Build) void {
             }
         }
     }
-
-    lib.addIncludePath(.{ .path = b.pathJoin(&.{ "freeglut", "include" }) });
-    b.installArtifact(lib);
-
-    lib.step.dependOn(installHeaders(
-        b,
-        b.pathJoin(&.{ "freeglut", "include", "GL" }),
-        "GL",
-    ));
 }
 
 fn installHeaders(b: *std.Build, folder: []const u8, out_folder: []const u8) *std.build.Step {
