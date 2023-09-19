@@ -14,6 +14,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    lib.disable_sanitize_c = true;
     lib.linkLibCpp();
     lib.addIncludePath(.{ .path = b.pathJoin(&.{ "freeglut", "include" }) });
     b.installArtifact(lib);
