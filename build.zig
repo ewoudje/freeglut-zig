@@ -32,6 +32,16 @@ pub fn build(b: *std.Build) void {
         },
     }
 
+    lib.addCSourceFile(.{
+        .file = .{ .path = b.pathJoin(&.{ "freeglut", "src", "util", "xparsegeometry_repl.c" }) },
+        .flags = &.{
+            "-Wall",
+            "-DFREEGLUT_STATIC",
+            "-DHAVE_SYS_TYPES_H",
+            "-DHAVE_STDINT_H",
+        },
+    });
+
     const src_folder = b.build_root.join(b.allocator, &.{ "freeglut", "src" }) catch @panic("File Not Found");
     const platform_dir = std.fs.cwd().openIterableDir(platform_folder.?, .{}) catch unreachable;
     var src_dir = std.fs.cwd().openIterableDir(src_folder, .{}) catch unreachable;
@@ -55,7 +65,6 @@ pub fn build(b: *std.Build) void {
                         "-DFREEGLUT_STATIC",
                         "-DHAVE_SYS_TYPES_H",
                         "-DHAVE_STDINT_H",
-                        "-DHAVE_XPARSEGEOMETRY",
                     },
                 });
             }
