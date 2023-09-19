@@ -27,7 +27,9 @@ pub fn build(b: *std.Build) void {
             lib.linkSystemLibrary("glu32");
             platform_folder = b.build_root.join(b.allocator, &.{ "freeglut", "src", "mswin" }) catch @panic("File Not Found");
         },
-        else => {},
+        else => {
+            return;
+        },
     }
 
     const src_folder = b.build_root.join(b.allocator, &.{ "freeglut", "src" }) catch @panic("File Not Found");
