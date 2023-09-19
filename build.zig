@@ -10,6 +10,7 @@ pub fn build(b: *std.Build) void {
 
     const lib = b.addStaticLibrary(.{
         .name = "freeglut",
+        .root_source_file = .{ .path = "empty.zig" },
         .target = target,
         .optimize = optimize,
     });
